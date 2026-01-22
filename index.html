@@ -149,6 +149,56 @@
             padding: 80px 0;
         }
 
+        /* Top Announcement Bar */
+.announcement-bar {
+    background-color: var(--primary-blue);
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    font-size: 0.9rem;
+    position: relative;
+    z-index: 1001;
+}
+
+.announcement-bar a {
+    color: white;
+    text-decoration: underline;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.announcement-bar a:hover {
+    color: var(--accent-orange);
+}
+
+.announcement-close {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 1rem;
+    opacity: 0.8;
+    transition: var(--transition);
+}
+
+.announcement-close:hover {
+    opacity: 1;
+}
+
+/* Adjust body margin-top to account for fixed header + announcement bar */
+body.announcement-visible {
+    margin-top: 40px; /* Height of announcement bar */
+}
+
+/* Adjust header position when announcement is visible */
+.announcement-visible header {
+    top: 40px; /* Height of announcement bar */
+}
+
         .section-center {
             text-align: center;
         }
@@ -934,6 +984,20 @@
     </style>
 </head>
 <body>
+
+    <!-- Announcement Bar -->
+<div class="announcement-bar" id="announcementBar">
+    <div class="container">
+        To Buy and Customize this website, email me at 
+        <a href="mailto:itsharif90172@gmail.com?subject=Website Inquiry - Best Care Pet Clinic&body=Hello, I'm interested in purchasing/customizing the Best Care Pet Clinic website.">
+            itsharif90172@gmail.com
+        </a>
+        <button class="announcement-close" id="closeAnnouncement" aria-label="Close announcement">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+</div>
+    
     <!-- Header & Navigation -->
     <header>
         <div class="container header-container">
@@ -1380,6 +1444,25 @@
     </footer>
 
     <script>
+
+        // Announcement Bar Functionality
+const announcementBar = document.getElementById('announcementBar');
+const closeAnnouncementBtn = document.getElementById('closeAnnouncement');
+const body = document.body;
+
+// Check if user has previously closed the announcement
+if (!localStorage.getItem('announcementClosed')) {
+    body.classList.add('announcement-visible');
+} else {
+    announcementBar.style.display = 'none';
+}
+
+// Close announcement functionality
+closeAnnouncementBtn.addEventListener('click', () => {
+    announcementBar.style.display = 'none';
+    body.classList.remove('announcement-visible');
+    localStorage.setItem('announcementClosed', 'true');
+});
         // Mobile Navigation Toggle
         const mobileMenuBtn = document.getElementById('mobileMenuBtn');
         const navLinks = document.getElementById('navLinks');
